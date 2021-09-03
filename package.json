@@ -1,0 +1,14 @@
+{
+  "name": "express_mysql_jwt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "andra manday <andra.manday@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  },
+  "scripts": {
+    "serve" : "nodemon ./app/"
+  }
+}
