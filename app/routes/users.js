@@ -3,6 +3,7 @@ const user = express.Router();
 
 const connection = require('../config/database');
 const userController = require('../controllers/userController');
+const Auth = require('../middleware/Auth');
 
 user.use(async (req, res, next)=>{
     const con = await connection;
@@ -17,7 +18,7 @@ user.use(async (req, res, next)=>{
     next();
 })
 
-user.get('/all', userController.getAll)
+user.get('/all', Auth, userController.getAll)
 
 user.get('/one/:username', userController.getByUsername)
 
@@ -26,5 +27,9 @@ user.post('/', userController.simpanData)
 user.put('/', userController.updateData)
 
 user.delete('/del/:username', userController.deleteData)
+
+user.post('/login', userController.loginUser)
+
+user.get('/info', Auth, userController.infoLogin)
 
 module.exports = user;

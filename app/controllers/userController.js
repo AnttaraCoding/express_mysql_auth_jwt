@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 class userController{
     static async simpanData(req, res){
         try{
@@ -93,6 +95,47 @@ class userController{
             res.send({
                 err : true,
                 msg : err
+            })
+        }
+    }
+
+    static async loginUser(req, res){
+        try{
+            const { username, password } = req.body
+            let con = await req.con
+            let [rows, field] =await con.execute(`SELECT * FROM users_tbl WHERE username='${username}' AND password='${password}'`);
+
+            const token = await jwt.sign({
+                username : username,
+                nama : rows[0].nama,
+                level : rows[0].level
+            }, 'S3cr3tk3y', { expiresIn : '1d' })
+            
+            res.send({
+                err : false,
+                msg : "Login Aplikasi Berhasil",
+                data : {username, token}
+            })
+        }catch(err){
+            res.send({
+                err : true,
+                msg : 'Login Gagal, Check kembali usernam dan password'
+            })
+        }
+    }
+
+    static async infoLogin(req, res){
+        try{
+            const { username, nama, level } = req.data
+            res.send({
+                err : false,
+                msg : "Info Login User",
+                data : { username, nama, level }
+            })
+        }catch(err){
+            res.send({
+                err : true,
+                msg : 'Login Gagal, Check kembali usernam dan password'
             })
         }
     }
