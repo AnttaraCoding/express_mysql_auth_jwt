@@ -7,6 +7,7 @@ const connection = mysql.createConnection({
     password: "P@ssw0rd",
     database: "expess_mysql"
 }).catch(()=>{
+    return false
     console.log('database not connect');
 })
 
